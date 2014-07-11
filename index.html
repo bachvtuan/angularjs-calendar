@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html  ng-app="calendarApp">
+  <head>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Angularjs calendar</title>
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+    <!-- load dependencies javascript files -->
+    <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="//code.angularjs.org/1.2.18/angular.min.js"></script>
+    <script src="js/calendar.js"></script>
+    <style type="text/css">
+      .cursor{
+        cursor: pointer;
+      }
+      .wrap-calendar {
+        margin-top: 60px;
+        margin-bottom: 0px;
+        padding: 0px 10px; }
+      .wrap-calendar .calendar-table .calendar-day {
+        position: relative;
+        height: 100px;
+        width: 14%; }
+      .wrap-calendar .calendar-table .calendar-day.current-month.over {
+        background: #eee; }
+      .wrap-calendar .calendar-table .calendar-day.other-month {
+        background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.03) 25%, transparent 25%, transparent 50%, rgba(0, 0, 0, 0.03) 50%, rgba(0, 0, 0, 0.03) 75%, transparent 75%, transparent);
+        background-color: #FAFCFD;
+        background-size: 16px 16px;
+        cursor: pointer; }
+      .wrap-calendar .calendar-table .calendar-day .day-number {
+        position: absolute;
+        right: 5px;
+        top: 5px; }
+    </style>
+    
+  </head>
+  <body>
+  <div class="wrap-calendar" >
+    <script type="text/ng-template" id="calendar-template.html">
+      <table  class="calendar-table table table-bordered" ng-init="day = 1">
+        <tr>
+          <th colspan="7">
+            {{monthName}} : {{year}}
+            <p class="pull-right">
+              <i class="fa fa-arrow-left link cursor" ng-click="setMonth(-1)" title="Previous month" /> &nbsp;
+              <i class="fa fa-arrow-right link cursor" ng-click="setMonth(1)" title="Next month" />
+            </p>
+          </th>
+        </tr>
+        <tr class="calendar-header">
+          <td class="calendar-header-day" ng-repeat="i in [] | range:7">
+            <strong>{{cal_days_labels[i]}}</strong>
+          </td>
+        </tr>
+       <tr ng-repeat="week in calendar_result">
+          <td ng-repeat="date in week"  class="calendar-day {{ date.type != 'current_month' ? 'other-month' : 'current-month'  }}" ng-click="doClickMonth(date.type)" day="{{date.day}}" >
+            <p class="day-number">{{date.day}}</p>
+          </td>
+        </tr>
+      </table>
+    </script>
+    <div ng-controller='calendarCtrl' ng-init="init()" >
+      <ng-include src="'calendar-template.html'"></ng-include>
+    </div>
+  </div>
+  </body>
+</html>
